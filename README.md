@@ -14,6 +14,10 @@ To use, include the sereth_amd.js or sereth_amd.min.js file before your code.
 
 Sereth AMD provides exactly two interface points. One to define new modules, and one to use defined modules. 
 
+**Note 1:** You *can not* use `def_module` without a module_name as you can with requirejs style `define`. 
+
+**Note 2:** Neither `def_module`, nor `use_modules` infer dependency names through the callback parameters. You must specify both. 
+
 To define a module:
 
 ```javascript
