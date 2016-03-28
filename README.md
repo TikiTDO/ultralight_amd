@@ -30,7 +30,7 @@ define_module(module_name, dependency_name, function (first_dependency) {
 });
 
 // With multiple dependencies
-define_module(module_name, [first_dependency_name, second_dependency_name, ...], function (first_dependency, second_dependency) {
+define_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
   // ...
   return module_value;
 });
