@@ -39,8 +39,7 @@ THE SOFTWARE.
    *     A callback that returns the value of the module to be stored. Parameters will be the requested dependency modules
    */ 
   root['use_modules'] = function (dependencies, callback) {
-    // V
-    if (typeof callback !== 'function') throw 'Module usage not a function: ' + key;;
+    if (typeof callback !== 'function') throw 'Module usage not a function';
     satisfy_dependencies(dependencies).then(function (dependencies_actual) {
       callback.apply(root, dependencies_actual);
     });
