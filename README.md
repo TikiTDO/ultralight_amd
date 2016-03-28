@@ -24,13 +24,13 @@ def_module(module_name, function () {
 });
 
 // With one dependency
-def_module(module_name, dependency_name, function (first_dependency) {
+def_module(module_name, dependency_name, function (dependency) {
   // ...
   return module_value;
 });
 
 // With multiple dependencies
-def_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
+def_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep, second_dep, ...) {
   // ...
   return module_value;
 });
@@ -45,7 +45,7 @@ use_modules(dependency_name, function (first_dependency) {
 });
 
 // With multiple dependencies
-use_modules([first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
+use_modules([first_dep_name, second_dep_name, ...], function (first_dep, second_dep, ...) {
   // ...
 });
 ```
