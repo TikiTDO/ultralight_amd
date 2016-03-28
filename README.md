@@ -25,13 +25,13 @@ def_module(module_name, function () {
 
 // With one dependency
 def_module(module_name, dependency_name, function (dependency_value) {
-  // ...
+  // Use dependency_value to get module_value...
   return module_value;
 });
 
 // With multiple dependencies
 def_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep_value, second_dep_value, ...) {
-  // ...
+  // Use dep_values to get module_value...
   return module_value;
 });
 ```
@@ -40,13 +40,13 @@ To use modules:
 
 ```javascript
 // With one dependency
-use_modules(dependency_name, function (first_dependency) {
-  //...
+use_modules(dependency_name, function (dependency_value) {
+  // Use dependency_value...
 });
 
 // With multiple dependencies
 use_modules([first_dep_name, second_dep_name, ...], function (first_dep_value, second_dep_value, ...) {
-  // ...
+  // Use dep_values...
 });
 ```
 
