@@ -23,11 +23,12 @@ THE SOFTWARE.
 // Simple promised-based AMD solution
 // WARNING: No deadlock detection.
 (function (root) {
-  "use strict";
+  // "use strict" implied, but not used because I like 
 
   // Can not work without Promise support
-  if (!Promise) {throw "Native Promise support or polyfill required";}
-
+  if (!Promise) {throw "Promise required";}
+  var callback_error = 'Callback must be a function ';
+  var exists_error = 'Module exists: ';
   /** 
    * Define a module within the Sereth AMD environment 
    *
@@ -39,7 +40,7 @@ THE SOFTWARE.
    *     A callback that returns the value of the module to be stored. Parameters will be the requested dependency modules
    */ 
   root['use_modules'] = function (dependencies, callback) {
-    if (typeof callback !== 'function') throw 'Module usage not a function';
+    if (typeof callback !== 'function') throw callback_error;
     satisfy_dependencies(dependencies).then(function (dependencies_actual) {
       callback.apply(root, dependencies_actual);
     });
@@ -62,7 +63,7 @@ THE SOFTWARE.
     else dependencies = dependencies_or_callback;
 
     // Verify callback is a function
-    if (typeof callback !== 'function') throw 'Module define not a function: ' + key;
+    if (typeof callback !== 'function') throw callback_error;
 
     // Resolve the dependencies, and store the new module
     root.use_modules(dependencies, function (dependencies_actual) {
@@ -110,7 +111,7 @@ THE SOFTWARE.
         dependency_resolver.call(dependency_promise, value);
         delete dependency_resolvers[key];
       } else {
-        throw "Module already exists:  " + key;
+        throw exists_error + key;
       }
     }
   }
