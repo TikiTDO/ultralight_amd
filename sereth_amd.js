@@ -23,7 +23,7 @@ THE SOFTWARE.
 // Simple promised-based AMD solution
 // WARNING: No deadlock detection.
 (function (root) {
-  // "use strict" implied, but not used because I like 
+  // "use strict" implied, but not used because I like smaller files
 
   // Can not work without Promise support
   if (!Promise) {throw "Promise required";}
