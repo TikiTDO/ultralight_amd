@@ -19,7 +19,7 @@ To define a module:
 ```javascript
 // Without dependencies
 def_module(module_name, function () {
-  // ...
+  // Get module_value...
   return module_value;
 });
 
