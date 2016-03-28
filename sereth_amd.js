@@ -88,7 +88,7 @@ THE SOFTWARE.
   // Promises any number of named dependencies. Must return a promise that resolves to an array.
   function satisfy_dependencies(keys) {
     // Given no keys, resolve to an empty array
-    if (!keys) return new Promise(function (resolve){ resolve([]) });
+    if (!keys) return satisfy_dependencies([]);
     // Given keys that responds to map (like an array), map the keys into an array of individual promises, and combines them through Promise.all
     else if (keys.map) return Promise.all(keys.map(lookup_dependency));
     // Given a non-array like key, run a single lookup through Promise.all to get array resolution
