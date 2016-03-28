@@ -40,12 +40,12 @@ To use modules:
 
 ```javascript
 // With one dependency
-use_module(dependency_name, function (first_dependency) {
+use_modules(dependency_name, function (first_dependency) {
   //...
 });
 
 // With multiple dependencies
-use_module([first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
+use_modules([first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
   // ...
 });
 ```
