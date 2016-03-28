@@ -27,7 +27,7 @@ THE SOFTWARE.
 
   // Can not work without Promise support
   if (!Promise) {throw "Promise required";}
-  var callback_error = 'Callback must be a function ';
+  var callback_error = 'Callback must be a function';
   var exists_error = 'Module exists: ';
   /** 
    * Define a module within the Sereth AMD environment 
