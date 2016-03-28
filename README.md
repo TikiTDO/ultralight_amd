@@ -45,7 +45,7 @@ use_module(dependency_name, function (first_dependency) {
 });
 
 // With multiple dependencies
-use_module([first_dependency_name, second_dependency_name, ...], function (first_dependency, second_dependency) {
+use_module([first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
   // ...
 });
 ```
