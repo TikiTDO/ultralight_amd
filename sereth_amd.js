@@ -24,11 +24,15 @@ THE SOFTWARE.
 // WARNING: No deadlock detection.
 (function (root) {
   // "use strict" implied, but not used because I like smaller files
-
+  
+  // Do nothing if already defined
+  if(root.use_modules || root.def_module) return;
+  
   // Can not work without Promise support
   if (!Promise) {throw "Promise required";}
-  var callback_error = 'Callback must be a function';
-  var exists_error = 'Module exists: ';
+
+  var callback_error = 'Missing callback';
+  var exists_error = 'Module exists';
   /** 
    * Define a module within the Sereth AMD environment 
    *
@@ -40,7 +44,7 @@ THE SOFTWARE.
    *     A callback that returns the value of the module to be stored. Parameters will be the requested dependency modules
    */ 
   root['use_modules'] = function (dependencies, callback) {
-    if (typeof callback !== 'function') throw callback_error;
+    if (typeof callback != 'function') throw callback_error;
     satisfy_dependencies(dependencies).then(function (dependencies_actual) {
       callback.apply(root, dependencies_actual);
     });
@@ -56,14 +60,14 @@ THE SOFTWARE.
    * @param {function} callback
    *     A callback that returns the value of the module to be stored. Parameters will be the requested dependency modules
    */ 
-  root['define_module'] = function (key, dependencies_or_callback, callback) {
+  root['def_module'] = function (key, dependencies_or_callback, callback) {
     // Handle infixed optional dependencies parameter
     var dependencies = null;
-    if (typeof dependencies_or_callback === 'function') callback = dependencies_or_callback;
+    if (typeof dependencies_or_callback == 'function') callback = dependencies_or_callback;
     else dependencies = dependencies_or_callback;
 
     // Verify callback is a function
-    if (typeof callback !== 'function') throw callback_error;
+    if (typeof callback != 'function') throw callback_error;
 
     // Resolve the dependencies, and store the new module
     root.use_modules(dependencies, function (dependencies_actual) {
@@ -78,10 +82,11 @@ THE SOFTWARE.
   /* Helper Functions */
   // Returns a promise for a single named dependency
   function lookup_dependency(key) {
-    if (!dependency_promises[key]) 
+    if (!dependency_promises[key]) {
       dependency_promises[key] = new Promise(function(resolve, reject) {
         dependency_resolvers[key] = resolve;
       });
+    }
 
     return dependency_promises[key];
   }
@@ -91,7 +96,7 @@ THE SOFTWARE.
     // Given no keys, resolve to an empty array
     if (!keys) return satisfy_dependencies([]);
     // Given keys that responds to map (like an array), map the keys into an array of individual promises, and combines them through Promise.all
-    else if (keys.map) return Promise.all(keys.map(lookup_dependency));
+    else if (typeof keys.map == 'function') return Promise.all(keys.map(lookup_dependency));
     // Given a non-array like key, run a single lookup through Promise.all to get array resolution
     else return Promise.all([lookup_dependency(keys)]);
   }
@@ -111,7 +116,7 @@ THE SOFTWARE.
         dependency_resolver.call(dependency_promise, value);
         delete dependency_resolvers[key];
       } else {
-        throw exists_error + key;
+        throw exists_error;
       }
     }
   }

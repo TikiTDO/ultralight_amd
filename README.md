@@ -6,7 +6,7 @@ Sereth AMD is a super lightweight, Promise based JS AMD module, for no nonsense 
 
 This is a very simple, single purpose lightweight AMD library. It does one exactly single thing; [asynchronous module definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition), and it does it in a very small amount of code, by making use of native Promise support. It **does not** interface with any other library, it **does** polutes the global namespace. In other words, it's exactly what it says on the box and absolutely nothing else. 
 
-For all that it's less than 50 lines of code, it minifies down to 638 bytes, and gzips down to 366 bytes. I use it primarily for rails projects, where any other AMD system is overkill.
+For all that it's less than 50 lines of code, it minifies down to 674 bytes, and gzips down to 366 bytes. I use it primarily for rails projects, where any other AMD system is overkill.
 
 ## Usage
 
@@ -18,19 +18,19 @@ To define a module:
 
 ```javascript
 // Without dependencies
-define_module(module_name, function () {
+def_module(module_name, function () {
   // ...
   return module_value;
 });
 
 // With one dependency
-define_module(module_name, dependency_name, function (first_dependency) {
+def_module(module_name, dependency_name, function (first_dependency) {
   // ...
   return module_value;
 });
 
 // With multiple dependencies
-define_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
+def_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep, second_dep) {
   // ...
   return module_value;
 });
