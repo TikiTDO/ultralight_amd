@@ -14,9 +14,9 @@ To use, include the ul_amd.js or ul_amd.min.js file before your code.
 
 Ultra Light AMD provides exactly two interface points. One to define new modules, and one to use defined modules. 
 
-**Note 1:** You *cannot* use `def_module` without a module_name in place of `use_modules`, as you can with most `require` and `define` implementations. 
+**Note 1:** You *cannot* use `def_module` without a module_name in place of `use_module`, as you can with most `require` and `define` implementations. 
 
-**Note 2:** Neither `def_module`, nor `use_modules` infer dependency names from the callback parameters. You must specify both. 
+**Note 2:** Neither `def_module`, nor `use_module` infer dependency names from the callback parameters. You must specify both. 
 
 To define a module:
 
