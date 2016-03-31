@@ -26,8 +26,13 @@ THE SOFTWARE.
   // "use strict" implied, but not used because I like smaller files
   
   // Do nothing if already defined
-  if(root.use_modules || root.def_module) return;
-  
+  if(root.ul_amd) return;
+  root.ul_amd = 1;
+
+  // Minimizer hinting
+  var Promise = root.Promise; 
+  var function_type = "function"
+
   // Can not work without Promise support
   if (!Promise) {throw "Promise required";}
 
@@ -43,8 +48,8 @@ THE SOFTWARE.
    * @param {function} callback
    *     A callback that returns the value of the module to be stored. Parameters will be the requested dependency modules
    */ 
-  root['use_modules'] = function (dependencies, callback) {
-    if (typeof callback != 'function') throw callback_error;
+  root['use_module'] = function (dependencies, callback) {
+    if (typeof callback != function_type) throw callback_error;
     satisfy_dependencies(dependencies).then(function (dependencies_actual) {
       callback.apply(root, dependencies_actual);
     });
@@ -63,14 +68,14 @@ THE SOFTWARE.
   root['def_module'] = function (key, dependencies_or_callback, callback) {
     // Handle infixed optional dependencies parameter
     var dependencies = null;
-    if (typeof dependencies_or_callback == 'function') callback = dependencies_or_callback;
+    if (typeof dependencies_or_callback == function_type) callback = dependencies_or_callback;
     else dependencies = dependencies_or_callback;
 
     // Verify callback is a function
-    if (typeof callback != 'function') throw callback_error;
+    if (typeof callback != function_type) throw callback_error;
 
     // Resolve the dependencies, and store the new module
-    root.use_modules(dependencies, function (dependencies_actual) {
+    root.use_module(dependencies, function (dependencies_actual) {
       store_dependency(key, callback.apply(root, dependencies_actual));
     })
   }
@@ -96,7 +101,7 @@ THE SOFTWARE.
     // Given no keys, resolve to an empty array
     if (!keys) return satisfy_dependencies([]);
     // Given keys that responds to map (like an array), map the keys into an array of individual promises, and combines them through Promise.all
-    else if (typeof keys.map == 'function') return Promise.all(keys.map(lookup_dependency));
+    else if (typeof keys.map == function_type) return Promise.all(keys.map(lookup_dependency));
     // Given a non-array like key, run a single lookup through Promise.all to get array resolution
     else return Promise.all([lookup_dependency(keys)]);
   }
