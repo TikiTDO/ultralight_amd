@@ -4,7 +4,7 @@ Ultra Light AMD is a super lightweight, Promise based JS AMD module, for no nons
 
 ## Purpose
 
-This is a very simple, single purpose lightweight AMD library. It does exactly one thing, and that thing only; [asynchronous module definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition), and it does it in a very small amount of code, by making use of native Promise support. It **does not** interface with any other library, it **does not* load anything, it **does** polutes the global namespace. In other words, it's exactly what it says on the box and absolutely nothing else. 
+This is a very simple, single purpose lightweight AMD library. It does exactly one thing, and that thing only; [asynchronous module definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition), and it does it in a very small amount of code, by making use of native Promise support. It **does not** interface with any other library, it **does not** load anything, it **does** polutes the global namespace. In other words, it's exactly what it says on the box and absolutely nothing else. 
 
 For all that it's less than 50 lines of code, it minifies down to 625 bytes, and gzips down to 368 bytes.
 
