@@ -22,19 +22,19 @@ To define a module:
 
 ```javascript
 // Without dependencies
-def_module(module_name, function () {
+def_module("module_name", function () {
   // Get module_value...
   return module_value;
 });
 
 // With one dependency
-def_module(module_name, dependency_name, function (dependency_value) {
+def_module("module_name", "dependency_name", function (dependency_value) {
   // Use dependency_value to get module_value...
   return module_value;
 });
 
 // With multiple dependencies
-def_module(module_name, [first_dep_name, second_dep_name, ...], function (first_dep_value, second_dep_value, ...) {
+def_module("module_name", ["first_dep_name", "second_dep_name", ...], function (first_dep_value, second_dep_value, ...) {
   // Use dep_values to get module_value...
   return module_value;
 });
@@ -44,17 +44,17 @@ To use module:
 
 ```javascript
 // With one dependency
-use_module(dependency_name, function (dependency_value) {
+use_module("dependency_name", function (dependency_value) {
   // Use dependency_value...
 });
 
 // With multiple dependencies
-use_module([first_dep_name, second_dep_name, ...], function (first_dep_value, second_dep_value, ...) {
+use_module(["first_dep_name", "second_dep_name", ...], function (first_dep_value, second_dep_value, ...) {
   // Use dep_values...
 });
 ```
 
-There are no configuration options, no additional arguments or parameters. If you need something fancy, the code is small enough that you should be able to add it yourself.
+There are no configuration options, no additional arguments or parameters, and no further functionality than already described. 
 
 ## Licence
 
