@@ -27,7 +27,7 @@ THE SOFTWARE.
   
   // Can not work without Promise support
   if (!Promise) throw "Promise required";
-  
+
   // Do nothing if already defined
   if(root.ul_amd) return;
   root.ul_amd = 1;
@@ -86,7 +86,7 @@ THE SOFTWARE.
         // If module has not been looked up, just create a resolved promise
         dependency_promises[key] = Promise.resolve(value);
       } else if (dependency_resolvers[key]) {
-        // If module has been looked up, try to resolve it. If there is a promise, but no resolver then it must have already been resolved.
+        // If module has been looked up, try to resolve it.
         dependency_resolvers[key].call(dependency_promises[key], value);
         delete dependency_resolvers[key];
       } else {
