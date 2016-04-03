@@ -76,7 +76,20 @@ THE SOFTWARE.
 
     // Resolve the dependencies, and store the new module
     root.use_module(dependencies, function (dependencies_actual) {
-      store_dependency(key, callback.apply(root, dependencies_actual));
+      var value = callback.apply(root, dependencies_actual);
+
+      // Lookup the dependency promise, and resolve if possible
+      if (!dependency_promises[key]) {
+        // If module has not been looked up, just create a resolved promise
+        dependency_promises[key] = Promise.resolve(value);
+      } else if (dependency_resolvers[key]) {
+        // If module has been looked up, try to resolve it. If there is a promise, but no resolver then it must have already been resolved.
+        dependency_resolvers[key].call(dependency_promises[key], value);
+        delete dependency_resolvers[key];
+      } else {
+        // If module has a promise, but does not have a resolve then it has already been define.
+        throw exists_error;
+      } 
     })
   }
   
@@ -104,21 +117,5 @@ THE SOFTWARE.
     else if (Array.isArray(keys)) return Promise.all(keys.map(lookup_dependency));
     // Given a non-array like key, run a single lookup through Promise.all to get array resolution
     else return Promise.all([lookup_dependency(keys)]);
-  }
-
-  // Resolves a single named dependency
-  function store_dependency(key, value) {
-    // Lookup the dependency promise, and resolve
-    if (!dependency_promises[key]) {
-      // If module has not been looked up, just create a resolved promise
-      dependency_promises[key] = Promise.resolve(value);
-    } else if (dependency_resolvers[key]) {
-      // If module has been looked up, try to resolve it. If there is a promise, but no resolver then it must have already been resolved.
-      dependency_resolvers[key].call(dependency_promises[key], value);
-      delete dependency_resolvers[key];
-    } else {
-      // If module has a promise, but does not have a resolve then it has already been define.
-      throw exists_error;
-    } 
   }
 })(this);
