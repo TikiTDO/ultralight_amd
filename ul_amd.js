@@ -25,6 +25,9 @@ THE SOFTWARE.
 (function (root) {
   // "use strict" implied, but not used because I like smaller files
   
+  // Can not work without Promise support
+  if (!Promise) throw "Promise required";
+  
   // Do nothing if already defined
   if(root.ul_amd) return;
   root.ul_amd = 1;
@@ -38,11 +41,8 @@ THE SOFTWARE.
   var dependency_resolvers = {};
   var dependency_promises = {};
 
-  // Can not work without Promise support
-  if (!Promise) throw "Promise required";
-
   /** 
-   * Define a module within the Sereth AMD environment 
+   * Define a module within the Ultra Light AMD environment 
    *
    * @param {Object} key
    *     The identifier for this module. This will be used to specify dependencies.
@@ -59,7 +59,7 @@ THE SOFTWARE.
   }
 
   /** 
-   * Define a module within the Sereth AMD environment 
+   * Define a module within the Ultra Light AMD environment 
    *
    * @param {Object} key
    *     The identifier for this module. This will be used to specify dependencies.
