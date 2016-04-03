@@ -31,13 +31,13 @@ THE SOFTWARE.
 
   // Minimizer hinting
   var Promise = root.Promise; 
-  var function_type = "function"
-
-  // Can not work without Promise support
-  if (!Promise) {throw "Promise required";}
-
+  var function_type = "function";
   var callback_error = 'Missing callback';
   var exists_error = 'Module exists';
+
+  // Can not work without Promise support
+  if (!Promise) throw "Promise required";
+
   /** 
    * Define a module within the Sereth AMD environment 
    *
@@ -88,7 +88,7 @@ THE SOFTWARE.
   // Returns a promise for a single named dependency
   function lookup_dependency(key) {
     if (!dependency_promises[key]) {
-      dependency_promises[key] = new Promise(function(resolve, reject) {
+      dependency_promises[key] = new Promise(function(resolve) {
         dependency_resolvers[key] = resolve;
       });
     }
@@ -100,8 +100,8 @@ THE SOFTWARE.
   function satisfy_dependencies(keys) {
     // Given no keys, resolve to an empty array
     if (!keys) return satisfy_dependencies([]);
-    // Given keys that responds to map (like an array), map the keys into an array of individual promises, and combines them through Promise.all
-    else if (typeof keys.map == function_type) return Promise.all(keys.map(lookup_dependency));
+    // Given array keys, map the keys into an array of individual promises, and combines them through Promise.all
+    else if (Array.isArray(keys)) return Promise.all(keys.map(lookup_dependency));
     // Given a non-array like key, run a single lookup through Promise.all to get array resolution
     else return Promise.all([lookup_dependency(keys)]);
   }
@@ -109,20 +109,16 @@ THE SOFTWARE.
   // Resolves a single named dependency
   function store_dependency(key, value) {
     // Lookup the dependency promise, and resolve
-    var dependency_promise = dependency_promises[key];
-    var dependency_resolver = dependency_resolvers[key];
-
-    if (!dependency_promise) {
+    if (!dependency_promises[key]) {
       // If module has not been looked up, just create a resolved promise
       dependency_promises[key] = Promise.resolve(value);
-    } else {
+    } else if (dependency_resolvers[key]) {
       // If module has been looked up, try to resolve it. If there is a promise, but no resolver then it must have already been resolved.
-      if (dependency_resolver) {
-        dependency_resolver.call(dependency_promise, value);
-        delete dependency_resolvers[key];
-      } else {
-        throw exists_error;
-      }
-    }
+      dependency_resolvers[key].call(dependency_promises[key], value);
+      delete dependency_resolvers[key];
+    } else {
+      // If module has a promise, but does not have a resolve then it has already been define.
+      throw exists_error;
+    } 
   }
 })(this);
