@@ -29,11 +29,14 @@ THE SOFTWARE.
   if(root.ul_amd) return;
   root.ul_amd = 1;
 
-  // Minimizer hinting
+  /* Minimizer Hinting */
   var Promise = root.Promise; 
   var function_type = "function";
   var callback_error = 'Missing callback';
   var exists_error = 'Module exists';
+  /* Local Variables */
+  var dependency_resolvers = {};
+  var dependency_promises = {};
 
   // Can not work without Promise support
   if (!Promise) throw "Promise required";
@@ -92,10 +95,6 @@ THE SOFTWARE.
       } 
     })
   }
-  
-  /* Local Variables */
-  var dependency_resolvers = {};
-  var dependency_promises = {};
 
   /* Helper Functions */
   // Returns a promise for a single named dependency
