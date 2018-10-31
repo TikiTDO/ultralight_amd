@@ -54,7 +54,7 @@ THE SOFTWARE.
   root['use_module'] = function (dependencies, callback) {
     if (typeof callback != function_type) throw callback_error;
     satisfy_dependencies(dependencies).then(function (dependencies_actual) {
-      callback.apply(root, dependencies_actual);
+      callback.call(root, dependencies_actual);
     });
   }
 
